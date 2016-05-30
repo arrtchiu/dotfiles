@@ -1,0 +1,10 @@
+[user]
+	email = arrtchiu@gmail.com
+	name = arrtchiu
+[push]
+	default = simple
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[core]
+	excludesfile = ~/.gitignore_global

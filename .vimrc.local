@@ -1,0 +1,54 @@
+set nocursorline " don't highlight current line
+
+" keyboard shortcuts
+inoremap jj <ESC>
+
+" highlight search
+"set hlsearch
+"nmap <leader>hl :let @/ = ""<CR>
+
+" gui settings
+if (&t_Co == 256 || has('gui_running'))
+  colorscheme vividchalk
+endif
+
+" Disambiguate ,a & ,t from the Align plugin, making them fast again.
+"
+" This section is here to prevent AlignMaps from adding a bunch of mappings
+" that interfere with the very-common ,a and ,t mappings. This will get run
+" at every startup to remove the AlignMaps for the *next* vim startup.
+"
+" If you do want the AlignMaps mappings, remove this section, remove
+" ~/.vim/bundle/Align, and re-run rake in maximum-awesome.
+function! s:RemoveConflictingAlignMaps()
+  if exists("g:loaded_AlignMapsPlugin")
+    AlignMapsClean
+  endif
+endfunction
+command! -nargs=0 RemoveConflictingAlignMaps call s:RemoveConflictingAlignMaps()
+silent! autocmd VimEnter * RemoveConflictingAlignMaps
+
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%101v.\+/
+
+Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
+Plugin 'Lokaltog/powerline'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+:set guifont=Monaco:h16
+noremap <Leader>rt :!/usr/local/bin/ctags --languages=ruby -R .<CR><CR>
+:set hlsearch
+" :map <C-*> :noh <CR>
+:map <F3> :buffer 
+:map <F4> :bd <CR>
+:map <F5> :bp <CR>
+:map <F6> :bn <CR>
+:map <F8> :TagbarToggle<CR>
+
+" Get rid of annoying type visual to return to normal crap
+:map Q <Nop>
+:set gdefault
+:set ff=unix
+noremap <C-d> :sh<CR>
