@@ -4,14 +4,14 @@ export EDITOR='vim'
 
 eval "$(rbenv init -)"
 
-type gg &> /dev/null && unalias gg; alias gg='git grep -ni'
-type ggpull &> /dev/null && unalias ggpull; alias ggpull='git pull --rebase origin $(current_branch)'
-type ggpush &> /dev/null && unalias ggpush; alias ggpush='git push --set-upstream origin $(current_branch)'
-type gco &> /dev/null && unalias gco; alias gco='git checkout'
-type be &> /dev/null && unalias be; alias be='bundle exec'
-type rs &> /dev/null && unalias rs; alias rs='bundle exec rspec'
-type vim &> /dev/null && unalias vim; alias vim=/usr/local/bin/vim
-type pwgen &> /dev/null && unalias pwgen; alias pwgen='pwgen --secure 50 1'
+unalias gg; alias gg='git grep -ni'
+unalias ggpull; alias ggpull='git pull --rebase origin $(current_branch)'
+unalias ggpush; alias ggpush='git push --set-upstream origin $(current_branch)'
+unalias gco; alias gco='git checkout'
+alias be='bundle exec'
+alias rs='bundle exec rspec'
+alias vim=/usr/local/bin/vim
+alias pwgen='pwgen --secure 50 1'
 
 bindkey '^R' history-incremental-search-backward
 
