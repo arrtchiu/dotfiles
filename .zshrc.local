@@ -1,0 +1,48 @@
+set -o vi
+
+export EDITOR='vim'
+
+eval "$(rbenv init -)"
+
+unalias gg; alias gg='git grep -ni'
+unalias ggpull; alias ggpull='git pull --rebase origin $(current_branch)'
+unalias ggpush; alias ggpush='git push --set-upstream origin $(current_branch)'
+unalias gco; alias gco='git checkout'
+unalias be; alias be='bundle exec'
+unalias rs; alias rs='bundle exec rspec'
+unalias vim; alias vim=/usr/local/bin/vim
+
+bindkey '^R' history-incremental-search-backward
+
+setopt magic_equal_subst
+
+function killjob()
+{
+    emulate -L zsh
+    for jobnum in $@ ; do
+        kill ${${jobstates[$jobnum]#*:*:}%=*}
+    done
+}
+
+function ggc() {
+  BRANCH=$(git rev-parse --abbrev-ref HEAD)
+  MESSAGE=`echo $(echo $BRANCH | sed -e 's/t\([0-9][0-9][0-9][0-9]\)_.*$/re #\1/') $@`
+  git commit -m $MESSAGE
+}
+
+function encrypt () {
+  mv "$1" "$1.bak"
+  openssl aes-256-cbc -in "$1.bak" -out "$1"
+}
+
+function decrypt () {
+  mv "$1" "$1.bak"
+  openssl aes-256-cbc -d -in "$1.bak" -out "$1"
+}
+
+function waitpid () {
+  while ( kill -0 "$1" ); do
+    sleep 1
+  done
+  eval "$2"
+}

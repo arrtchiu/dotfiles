@@ -52,3 +52,4 @@ noremap <Leader>rt :!/usr/local/bin/ctags --languages=ruby -R .<CR><CR>
 :set gdefault
 :set ff=unix
 noremap <C-d> :sh<CR>
+set clipboard=unnamed
