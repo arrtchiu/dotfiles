@@ -13,6 +13,7 @@ alias rs='bundle exec rspec'
 alias vim=/usr/local/bin/vim
 alias pwgen='pwgen --secure 50 1'
 alias pretty_json='python -m json.tool'
+alias :q=exit
 
 bindkey '^R' history-incremental-search-backward
 
