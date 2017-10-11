@@ -46,6 +46,9 @@ noremap <Leader>rt :!/usr/local/bin/ctags --languages=ruby -R .<CR><CR>
 :map <F5> :bp <CR>
 :map <F6> :bn <CR>
 :map <F8> :TagbarToggle<CR>
+:map <F7> :!%:p<CR>
+:map <C-F7> :!bundle exec rspec %<CR>
+:map <F12> :%! clang-format <CR>
 
 " Get rid of annoying type visual to return to normal crap
 :map Q <Nop>

@@ -4,6 +4,7 @@ export EDITOR='vim'
 
 eval "$(rbenv init -)"
 
+alias sshag='eval "$(ssh-agent)"'
 unalias gg; alias gg='git grep -ni'
 unalias ggpull; alias ggpull='git pull --rebase origin $(current_branch)'
 unalias ggpush; alias ggpush='git push --set-upstream origin $(current_branch)'
@@ -29,7 +30,7 @@ function killjob()
 
 function ggc() {
   BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  MESSAGE=`echo $(echo $BRANCH | sed -e 's/t\([0-9][0-9][0-9][0-9]\)_.*$/re #\1/') $@`
+  MESSAGE=`echo $(echo $BRANCH | sed -e 's/t\([0-9]\{4,\}\)_.*$/re #\1/') $@`
   git commit -m $MESSAGE
 }
 
@@ -48,4 +49,31 @@ function waitpid () {
     sleep 1
   done
   eval "$2"
+}
+
+function honeypot () {
+  open "https://www.projecthoneypot.org/ip_$1"
+}
+
+function leq_top_ips () {
+  GROUPBY=${1:=remote_addr}
+  INTERVAL=${2:=1d}
+  DATE_FMT="%Y-%m-%d %H:%M:%S"
+  lecli query -g frontend_access --leql "where(request != /GET \/efa521840d5dfc23c89f5635bbeff687status HTTP\/1.1/ and user_agent != /Pingdom.*/) groupby($GROUPBY) calculate(count)" \
+    --datefrom "$(date -v -$INTERVAL +$DATE_FMT)" --dateto "$(date +$DATE_FMT)" | \
+    grep -B1 count: | \grep -v -- '^--$' | \
+    awk '/^\tcount:/ { print $2; }; !/^\tcount: / { print $0 }' | \
+    sed 's/:$//' | awk '!(NR%2){ print $0 "," p }{ p=$0 }'
+}
+
+function leq_ip () {
+  REMOTE_ADDR=${1}
+  GROUPBY=${2:=request}
+  INTERVAL=${3:=1d}
+  DATE_FMT="%Y-%m-%d %H:%M:%S"
+  lecli query -g frontend_access --leql "where(remote_addr=$REMOTE_ADDR) groupby($GROUPBY) calculate(count)" \
+    --datefrom "$(date -v -$INTERVAL +$DATE_FMT)" --dateto "$(date +$DATE_FMT)" | \
+    grep -B1 count: | \grep -v -- '^--$' | \
+    awk '/^\tcount:/ { print $2; }; !/^\tcount: / { print $0 }' | \
+    sed 's/:$//' | awk '!(NR%2){ print $0 "," p }{ p=$0 }'
 }
