@@ -1,3 +1,6 @@
+Plugin 'Chilledheart/vim-clangd'
+Plugin 'shougo/neocomplete.vim'
+
 set nocursorline " don't highlight current line
 
 " keyboard shortcuts
@@ -9,7 +12,7 @@ inoremap jj <ESC>
 
 " gui settings
 if (&t_Co == 256 || has('gui_running'))
-  colorscheme vividchalk
+  colorscheme solarized
 endif
 
 " Disambiguate ,a & ,t from the Align plugin, making them fast again.
@@ -31,16 +34,8 @@ silent! autocmd VimEnter * RemoveConflictingAlignMaps
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%101v.\+/
 
-Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
-Plugin 'Lokaltog/powerline'
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 :set guifont=Monaco:h16
 noremap <Leader>rt :!/usr/local/bin/ctags --languages=ruby -R .<CR><CR>
-:set hlsearch
-" :map <C-*> :noh <CR>
 :map <F3> :buffer 
 :map <F4> :bd <CR>
 :map <F5> :bp <CR>
@@ -56,3 +51,8 @@ noremap <Leader>rt :!/usr/local/bin/ctags --languages=ruby -R .<CR><CR>
 :set ff=unix
 noremap <C-d> :sh<CR>
 set clipboard=unnamed
+
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1

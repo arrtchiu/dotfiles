@@ -77,3 +77,5 @@ function leq_ip () {
     awk '/^\tcount:/ { print $2; }; !/^\tcount: / { print $0 }' | \
     sed 's/:$//' | awk '!(NR%2){ print $0 "," p }{ p=$0 }'
 }
+
+alias vim=/usr/local/bin/vim
